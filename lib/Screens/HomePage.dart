@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +13,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static int currentIndex = 0;
+
+  Future fetchWineries() async {
+    var url = 'https://jsonplaceholder.typicode.com/todos/1';
+
+    var response = await http.get(Uri.parse(url));
+    print(response.body);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWineries();
+  }
 
   final List<Marker> _markers = <Marker>[
     Marker(
