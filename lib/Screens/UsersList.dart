@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_maps/Screens/HomePage.dart';
 import 'package:http/http.dart' as http;
 
 class UsersList extends StatefulWidget {
@@ -37,12 +38,23 @@ class _UsersListState extends State<UsersList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Usuários com mais visitas'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.home),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
+              tileColor: index % 2 == 0
+                  ? Colors.purple.withOpacity(0.1)
+                  : Colors.purple.withOpacity(0.2),
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(users[index]['avatar']),
               ),

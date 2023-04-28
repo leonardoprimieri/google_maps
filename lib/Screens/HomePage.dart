@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_maps/config/routes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -79,6 +80,14 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 143, 15, 157),
           title: Text("Wine Maps"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(listUsersPage);
+                },
+                // list users icon
+                icon: Icon(Icons.list)),
+          ],
         ),
         body: Container(
           child: SafeArea(
