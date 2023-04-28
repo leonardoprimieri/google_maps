@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps/Screens/HomePage.dart';
+import 'package:google_maps/Screens/UsersList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +12,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Maps',
+      title: 'Wine Maps',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
+      routes: {
+        '/wineMaps': (context) => HomePage(),
+        '/usersList': (context) => UsersList(),
+      },
       home: const HomePage(),
     );
   }

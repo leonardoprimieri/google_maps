@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_maps/Screens/HomePage.dart';
 import 'package:http/http.dart' as http;
 
 class UsersList extends StatefulWidget {
@@ -41,7 +40,7 @@ class _UsersListState extends State<UsersList> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/usersList');
             },
             icon: Icon(Icons.home),
           ),

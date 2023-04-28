@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_maps/config/routes.dart';
+import 'package:google_maps/Screens/UsersList.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(listUsersPage);
+                  Navigator.pushNamed(context, '/usersList');
                 },
                 // list users icon
                 icon: Icon(Icons.list)),
@@ -107,6 +107,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FloatingActionButton(
+              heroTag: 'btn1',
               onPressed: () {
                 currentIndex++;
                 onCurrentIndexChange();
@@ -117,6 +118,7 @@ class _HomePageState extends State<HomePage> {
               width: 10,
             ),
             FloatingActionButton(
+              heroTag: 'btn2',
               onPressed: () {
                 currentIndex--;
                 onCurrentIndexChange();
