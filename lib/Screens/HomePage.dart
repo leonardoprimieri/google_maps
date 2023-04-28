@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static int currentIndex = 0;
-  bool isLoading = true;
   final List<Marker> _markers = [];
 
   Future fetchWineries() async {
@@ -36,9 +35,7 @@ class _HomePageState extends State<HomePage> {
           ));
       _markers.add(marker);
     }
-    setState(() {
-      isLoading = false;
-    });
+    setState(() {});
   }
 
   @override
@@ -78,57 +75,54 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 143, 15, 157),
-          title: Text("Wine Maps"),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/usersList');
-                },
-                // list users icon
-                icon: Icon(Icons.list)),
-          ],
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 143, 15, 157),
+        title: Text("Wine Maps"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/usersList');
+              },
+              icon: Icon(Icons.emoji_events))
+        ],
+      ),
+      body: Container(
+        child: SafeArea(
+          child: GoogleMap(
+            initialCameraPosition: _kGoogle,
+            markers: Set<Marker>.of(_markers),
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            compassEnabled: true,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+          ),
         ),
-        body: !isLoading
-            ? Container(
-                child: SafeArea(
-                  child: GoogleMap(
-                    initialCameraPosition: _kGoogle,
-                    markers: Set<Marker>.of(_markers),
-                    mapType: MapType.normal,
-                    myLocationEnabled: true,
-                    compassEnabled: true,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                  ),
-                ),
-              )
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FloatingActionButton(
-              heroTag: 'btn1',
-              onPressed: () {
-                currentIndex++;
-                onCurrentIndexChange();
-              },
-              child: Icon(Icons.arrow_back),
-            ),
-            SizedBox(width: 16),
-            FloatingActionButton(
-              heroTag: 'btn2',
-              onPressed: () {
-                currentIndex--;
-                onCurrentIndexChange();
-              },
-              child: Icon(Icons.arrow_forward),
-            ),
-          ],
-        ));
+      ),
+      floatingActionButton: Container(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton(
+            heroTag: 'btn1',
+            onPressed: () {
+              currentIndex++;
+              onCurrentIndexChange();
+            },
+            child: Icon(Icons.arrow_back),
+          ),
+          SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: 'btn2',
+            onPressed: () {
+              currentIndex--;
+              onCurrentIndexChange();
+            },
+            child: Icon(Icons.arrow_forward),
+          ),
+        ],
+      )),
+    );
   }
 }

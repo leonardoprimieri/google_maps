@@ -12,7 +12,6 @@ class UsersList extends StatefulWidget {
 
 class _UsersListState extends State<UsersList> {
   final List users = [];
-  bool isLoading = true;
 
   Future fetchUsers() async {
     var url =
@@ -23,9 +22,7 @@ class _UsersListState extends State<UsersList> {
     for (final user in jsonDecode(response.body)) {
       users.add(user);
     }
-    setState(() {
-      isLoading = false;
-    });
+    setState(() {});
   }
 
   @override
@@ -37,32 +34,29 @@ class _UsersListState extends State<UsersList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Usuários com mais visitas'),
-      ),
-      body: !isLoading
-          ? ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    tileColor: index % 2 == 0
-                        ? Colors.purple.withOpacity(0.1)
-                        : Colors.purple.withOpacity(0.2),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(users[index]['avatar']),
-                    ),
-                    title: Text(
-                      '${users[index]['name']} ${index < 3 ? '👑' : ''} ',
-                    ),
-                    subtitle: Text(
-                      'Visitas: ${users[index]['visits']}',
-                    ),
-                  ),
-                );
-              },
-            )
-          : Center(child: CircularProgressIndicator()),
-    );
+        appBar: AppBar(
+          title: Text('Usuários com mais visitas'),
+        ),
+        body: ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                tileColor: index % 2 == 0
+                    ? Colors.purple.withOpacity(0.1)
+                    : Colors.purple.withOpacity(0.2),
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(users[index]['avatar']),
+                ),
+                title: Text(
+                  '${users[index]['name']} ${index < 3 ? '👑' : ''} ',
+                ),
+                subtitle: Text(
+                  'Visitas: ${users[index]['visits']}',
+                ),
+              ),
+            );
+          },
+        ));
   }
 }
