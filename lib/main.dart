@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps/Screens/HomePage.dart';
+import 'package:google_maps/Screens/UsersList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const HomePage(),
+      home: const UsersList(),
     );
   }
 }
