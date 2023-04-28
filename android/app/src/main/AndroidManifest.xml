@@ -4,6 +4,13 @@
         android:label="google_maps"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+              android:name="com.google.android.geo.API_KEY"
+              android:value="@string/ANDROID_MAPS_API_KEY"
+              />
+
+             
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -21,10 +28,7 @@
               android:resource="@style/NormalTheme"
               />
 
-               <meta-data
-              android:name="com.google.android.geo.API_KEY"
-              android:resource="AIzaSyCY2Q4gi1jhrbwmYcGSDjfi-WdBq4rgSj0"
-              />
+               
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
