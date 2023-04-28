@@ -4,7 +4,7 @@ import 'Constants.dart';
 import 'dart:convert';
 
 Future<DemoModel> fetchData() async {
-  final response = await http.get('${(apiUrl)}/users');
+  final response = await http.get('${(apiUrl)}/users' as Uri);
   if (response.statusCode == 200) {
     return DemoModel.fromJson(jsonDecode(response.body));
   } else {
