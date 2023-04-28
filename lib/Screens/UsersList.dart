@@ -22,7 +22,6 @@ class _UsersListState extends State<UsersList> {
     for (final user in jsonDecode(response.body)) {
       users.add(user);
     }
-
     setState(() {});
   }
 
@@ -37,14 +36,6 @@ class _UsersListState extends State<UsersList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Usuários com mais visitas'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/usersList');
-            },
-            icon: Icon(Icons.home),
-          ),
-        ],
       ),
       body: ListView.builder(
         itemCount: users.length,
