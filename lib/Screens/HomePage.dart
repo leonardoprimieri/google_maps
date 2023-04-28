@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,12 +13,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static int currentIndex = 0;
+  final List<Marker> _markers = [];
 
   Future fetchWineries() async {
-    var url = 'https://jsonplaceholder.typicode.com/todos/1';
+    var url = 'https://644be33c4bdbc0cc3a9d3d10.mockapi.io/wineries';
 
     var response = await http.get(Uri.parse(url));
-    print(response.body);
+
+    for (final winery in jsonDecode(response.body)) {
+      var marker = Marker(
+          icon: await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(
+                size: Size(48, 48),
+              ),
+              'images/wine.png'),
+          markerId: MarkerId(winery['id'].toString()),
+          position: LatLng(winery['latitude'], winery['longitude']),
+          infoWindow: InfoWindow(
+            title: winery['name'],
+            snippet: winery['description'],
+          ));
+      _markers.add(marker);
+    }
+
+    setState(() {});
   }
 
   @override
@@ -26,21 +44,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchWineries();
   }
-
-  final List<Marker> _markers = <Marker>[
-    Marker(
-        markerId: MarkerId('1'),
-        position: LatLng(-28.2612, -52.4083),
-        infoWindow: InfoWindow(
-          title: 'Passo Fundo',
-        )),
-    Marker(
-        markerId: MarkerId('1'),
-        position: LatLng(-28, -52),
-        infoWindow: InfoWindow(
-          title: 'Passo Fundo 2',
-        )),
-  ];
 
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _kGoogle = const CameraPosition(
@@ -60,8 +63,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onCurrentIndexChange() {
-    // make infinite
-
     if (currentIndex < 0) {
       currentIndex = _markers.length - 1;
     } else if (currentIndex > _markers.length - 1) {
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
             child: GoogleMap(
               initialCameraPosition: _kGoogle,
               markers: Set<Marker>.of(_markers),
-              mapType: MapType.satellite,
+              mapType: MapType.normal,
               myLocationEnabled: true,
               compassEnabled: true,
               onMapCreated: (GoogleMapController controller) {
@@ -101,9 +102,7 @@ class _HomePageState extends State<HomePage> {
                 currentIndex++;
                 onCurrentIndexChange();
               },
-              child: currentIndex == _markers.length - 1
-                  ? Icon(Icons.arrow_back)
-                  : Icon(Icons.arrow_back),
+              child: Icon(Icons.arrow_back),
             ),
             SizedBox(
               width: 10,
